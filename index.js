@@ -97,7 +97,7 @@ app.put('/article/:id', urlEncodedParser, (req, res) => {
 app.post('/register', urlEncodedParser, (req, res) => {
     const data = {
         nom: req.body.nom,
-        prenom: req.body.email,
+        prenom: req.body.prenom,
         email: req.body.email,
         password: req.body.password
     }
