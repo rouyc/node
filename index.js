@@ -44,7 +44,7 @@ const axiosRestDBConfig = axios.create(restDBConfig)
 
 app.use(cors())
 
-app.get('/article/:id', urlEncodedParser, passport.authenticate('jwt', {session: false}), (req, res) => {
+app.get('/article/:id', urlEncodedParser, (req, res) => {
     axiosRestDBConfig.get('/article?q={"idArticle":' + req.params.id +'}')
         .then(response => res.json({
             data: response.data,
@@ -52,7 +52,7 @@ app.get('/article/:id', urlEncodedParser, passport.authenticate('jwt', {session:
         .catch(error => res.json({error}))
 })
 
-app.get('/articles', urlEncodedParser, passport.authenticate('jwt', {session: false}), (req, res) => {
+app.get('/articles', urlEncodedParser, (req, res) => {
     axiosRestDBConfig.get('/article')
         .then(response => res.json({
             data: response.data,
@@ -60,7 +60,7 @@ app.get('/articles', urlEncodedParser, passport.authenticate('jwt', {session: fa
         .catch(error => res.json({error}))
 })
 
-app.post('/article', urlEncodedParser, (req, res) => {
+app.post('/article', urlEncodedParser, passport.authenticate('jwt', {session: false}), (req, res) => {
     const data = {
         titreArticle: req.body.title,
         contenuArticle: req.body.content,
