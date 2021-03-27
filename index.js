@@ -44,8 +44,16 @@ const axiosRestDBConfig = axios.create(restDBConfig)
 
 app.use(cors())
 
-app.get('/article/:id', urlEncodedParser, (req, res) => {
+app.get('/article/:id', urlEncodedParser, passport.authenticate('jwt', {session: false}), (req, res) => {
     axiosRestDBConfig.get('/article?q={"idArticle":' + req.params.id +'}')
+        .then(response => res.json({
+            data: response.data,
+        }))
+        .catch(error => res.json({error}))
+})
+
+app.get('/articleByUser/:id', urlEncodedParser, passport.authenticate('jwt', {session: false}), (req, res) => {
+    axiosRestDBConfig.get('/article?q={"idUser":' + req.params.id +'}')
         .then(response => res.json({
             data: response.data,
         }))
@@ -127,7 +135,11 @@ app.post('/login', urlEncodedParser, async function (req, res) {
 
     const userJwt = jwt.sign({ user: user.email }, secret)
 
-    res.json({ jwt: userJwt })
+    res.json({
+        jwt: userJwt,
+        id : user.id,
+        username : user.nom,
+    })
 })
 
 const PORT = process.env.PORT || 5000
