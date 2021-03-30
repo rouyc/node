@@ -64,7 +64,7 @@ app.post('/add-article', urlEncodedParser, passport.authenticate('jwt', {session
     const data = {
         titreArticle: req.body.title,
         contenuArticle: req.body.content,
-        author_id: req.body.author_id,
+        userId: req.body.userId,
     }
     axiosRestDBConfig.post('/article', data)
         .then(response => res.json({
