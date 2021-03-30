@@ -86,7 +86,7 @@ app.put('/put-article/:id', urlEncodedParser, passport.authenticate('jwt', {sess
         titreArticle: req.body.title,
         contenuArticle: req.body.content,
     }
-    axiosRestDBConfig.put('/article/*?q={"idArticle":' + req.params.id +'}', data)
+    axiosRestDBConfig.put('/article/' + req.params.id, data)
         .then(response => res.json({
             data: response.data,
         }))
