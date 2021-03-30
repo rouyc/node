@@ -44,22 +44,6 @@ const axiosRestDBConfig = axios.create(restDBConfig)
 
 app.use(cors())
 
-app.get('/article/:id', urlEncodedParser, passport.authenticate('jwt', {session: false}), (req, res) => {
-    axiosRestDBConfig.get('/article?q={"idArticle":' + req.params.id +'}')
-        .then(response => res.json({
-            data: response.data,
-        }))
-        .catch(error => res.json({error}))
-})
-
-app.get('/articleByUser/:id', urlEncodedParser, passport.authenticate('jwt', {session: false}), (req, res) => {
-    axiosRestDBConfig.get('/article?q={"idUser":' + req.params.id +'}')
-        .then(response => res.json({
-            data: response.data,
-        }))
-        .catch(error => res.json({error}))
-})
-
 app.get('/articles', urlEncodedParser, (req, res) => {
     axiosRestDBConfig.get('/article')
         .then(response => res.json({
@@ -68,7 +52,7 @@ app.get('/articles', urlEncodedParser, (req, res) => {
         .catch(error => res.json({error}))
 })
 
-app.post('/article', urlEncodedParser, passport.authenticate('jwt', {session: false}), (req, res) => {
+app.post('/add-article', urlEncodedParser, passport.authenticate('jwt', {session: false}), (req, res) => {
     const data = {
         titreArticle: req.body.title,
         contenuArticle: req.body.content,
@@ -81,7 +65,7 @@ app.post('/article', urlEncodedParser, passport.authenticate('jwt', {session: fa
         .catch(error => res.json({error}))
 })
 
-app.delete('/article/:id', urlEncodedParser, passport.authenticate('jwt', {session: false}), (req, res) => {
+app.delete('/delete-article/:id', urlEncodedParser, passport.authenticate('jwt', {session: false}), (req, res) => {
     axiosRestDBConfig.delete('/article/*?q={"idArticle":' + req.params.id +'}')
         .then(response => res.json({
             data: response.data,
@@ -90,7 +74,7 @@ app.delete('/article/:id', urlEncodedParser, passport.authenticate('jwt', {sessi
 })
 
 //A refaire
-app.put('/article/:id', urlEncodedParser, (req, res) => {
+app.put('/put-article/:id', urlEncodedParser, (req, res) => {
     const data = {
         titreArticle: req.body.title,
         contenuArticle: req.body.content,
