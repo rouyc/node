@@ -81,8 +81,7 @@ app.delete('/delete-article/:id', urlEncodedParser, passport.authenticate('jwt',
         .catch(error => res.json({error}))
 })
 
-//A refaire
-app.put('/put-article/:id', urlEncodedParser, (req, res) => {
+app.put('/put-article/:id', urlEncodedParser, passport.authenticate('jwt', {session: false}), (req, res) => {
     const data = {
         titreArticle: req.body.title,
         contenuArticle: req.body.content,
