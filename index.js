@@ -45,7 +45,7 @@ const axiosRestDBConfig = axios.create(restDBConfig)
 app.use(cors())
 
 app.get('/article/:id', urlEncodedParser, passport.authenticate('jwt', {session: false}), (req, res) => {
-    axiosRestDBConfig.get('/article?q={"idArticle":' + req.params.id +'}')
+    axiosRestDBConfig.get('/article?q={"idArticle":' + req.params.id + '}')
         .then(response => res.json({
             data: response.data,
         }))
@@ -74,7 +74,7 @@ app.post('/add-article', urlEncodedParser, passport.authenticate('jwt', {session
 })
 
 app.delete('/delete-article/:id', urlEncodedParser, passport.authenticate('jwt', {session: false}), (req, res) => {
-    axiosRestDBConfig.delete('/article/*?q={"idArticle":' + req.params.id +'}')
+    axiosRestDBConfig.delete('/article/*?q={"idArticle":' + req.params.id + '}')
         .then(response => res.json({
             data: response.data,
         }))
@@ -112,7 +112,7 @@ app.post('/login', urlEncodedParser, async function (req, res) {
     const password = req.body.password
 
     if (!email || !password) {
-        res.status(401).json({ error: 'Email or password was not provided.' })
+        res.status(401).json({error: 'Email or password was not provided.'})
         return
     }
 
@@ -120,16 +120,16 @@ app.post('/login', urlEncodedParser, async function (req, res) {
     const user = users.data.find(user => user.email === email)
 
     if (!user || user.password !== password) {
-        res.status(401).json({ error: 'Email / password do not match.' })
+        res.status(401).json({error: 'Email / password do not match.'})
         return
     }
 
-    const userJwt = jwt.sign({ user: user.email }, secret)
+    const userJwt = jwt.sign({user: user.email}, secret)
 
     res.json({
         jwt: userJwt,
-        id : user.id,
-        username : user.nom,
+        id: user.id,
+        username: user.nom,
     })
 })
 
